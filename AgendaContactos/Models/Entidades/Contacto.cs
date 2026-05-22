@@ -1,4 +1,6 @@
-﻿namespace AgendaContactos.Models.Entidades
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace AgendaContactos.Models.Entidades
 {
     public class Contacto
     {
