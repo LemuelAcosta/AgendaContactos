@@ -14,6 +14,6 @@ namespace AgendaContactos.Models.Entidades
         public EstadoEvento Estado { get; set; }
         public Guid IdContacto { get; set; }
         [ForeignKey("IdContacto")]
-        public Contacto Contacto { get; set; }
+        public Contacto? Contacto { get; set; }
     }
 }

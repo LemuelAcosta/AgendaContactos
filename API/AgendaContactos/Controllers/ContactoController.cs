@@ -31,5 +31,13 @@ namespace AgendaContactos.Controllers
             }
             return contacto;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Contacto>> CreateContacto(Contacto contacto)
+        {
+            _context.Contactos.Add(contacto);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetContacto), new { id = contacto.Id }, contacto);
+        }
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgendaContactos.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class EventoController : Controller
     {
         private readonly AgendaDBContext _context;  
@@ -29,6 +31,14 @@ namespace AgendaContactos.Controllers
                 return NotFound();
             }
             return evento;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Evento>> CreateEvento(Evento evento)
+        {
+            _context.Eventos.Add(evento);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetEvento), new { id = evento.Id }, evento);
         }
     }
 }
