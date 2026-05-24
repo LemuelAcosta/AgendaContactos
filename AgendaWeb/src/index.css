@@ -39,3 +39,22 @@ h1 {
   background-color: #7a1010;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
 }
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #107a48;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+.button:hover {
+  background-color: #0e663d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+  gap: 1rem;
+}

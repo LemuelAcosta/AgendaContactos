@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getContactos } from "../../services/api";
 import { Link } from "react-router-dom";
+import CreateContacto from "../../components/Contactos/CreateContacto";
 
 function ContactosPage() {
 
-  const [Contactos, setContactos] =
-    useState([]);
+  const [showCreate, setShowCreate] = useState(false);
+  const [Contactos, setContactos] = useState([]);
 
   async function cargarContactos() {
     const data = await getContactos();
@@ -20,7 +21,12 @@ function ContactosPage() {
 
     <div>
       <h1>Contactos</h1>
-      <Link to="/" className='link-button'>Ir a Inicio</Link>
+      <div className="buttons">
+        <Link to="/" className='link-button'>Ir a Inicio</Link>
+        <button className="button" onClick={() => setShowCreate(true)}>
+          Crear Contacto
+        </button>
+      </div>
 
       {
         Contactos.map(evento => (
@@ -33,6 +39,14 @@ function ContactosPage() {
           </div>
 
         ))
+      }
+      {
+        showCreate && (
+          <CreateContacto
+            onClose={() => setShowCreate(false)}
+            onCreated={cargarContactos}
+          />
+        )
       }
     </div>
 

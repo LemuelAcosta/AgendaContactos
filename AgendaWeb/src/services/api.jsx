@@ -19,9 +19,31 @@ export function getEventos() {
   );
 }
 
+// contactos
 export function getContactos() {
   return fetchData(
     "Contacto",
     "Error cargando contactos"
+  );
+}
+
+export function getContacto(id) {
+  return fetchData(
+    `Contacto/${id}`,
+    "Error cargando contacto"
+  );
+}
+
+export function createContacto(contacto) {
+  console.log(contacto);
+  return fetch(
+    `${API_URL}/Contacto`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contacto),
+    }
   );
 }
