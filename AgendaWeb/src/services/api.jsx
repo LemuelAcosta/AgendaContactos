@@ -1,17 +1,27 @@
-const API_URL =
-  "https://localhost:7250/api";
+const API_URL = "https://localhost:7250/api";
 
-export async function getEventos() {
-
+async function fetchData(endpoint, errorMessage) {
   const response = await fetch(
-    `${API_URL}/Evento`
+    `${API_URL}/${endpoint}`
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Error cargando eventos"
-    );
+    throw new Error(errorMessage);
   }
 
   return await response.json();
+}
+
+export function getEventos() {
+  return fetchData(
+    "Evento",
+    "Error cargando eventos"
+  );
+}
+
+export function getContactos() {
+  return fetchData(
+    "Contacto",
+    "Error cargando contactos"
+  );
 }
