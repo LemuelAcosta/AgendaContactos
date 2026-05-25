@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getContactos } from "../../services/api";
+import { getContacto, getContactos } from "../../services/api";
 import { Link } from "react-router-dom";
 import CreateContacto from "../../components/Contactos/CreateContacto";
 
@@ -32,7 +32,13 @@ function ContactosPage() {
       <div className="contactos-list">
         {
           Contactos.map(contacto => (
-            <div className="contacto" key={contacto.id}>
+          <div className="evento" onClick={async () => {
+            const data = await getContacto(contacto.id);
+
+            setContactoSeleccionado(data);
+            setShowEdit(true);
+            }} 
+            key={contacto.id}>
               <h3>{contacto.nombreCompleto}</h3>
               <p>{contacto.email}</p>
               <small>
@@ -56,6 +62,7 @@ function ContactosPage() {
           <CreateContacto
             onClose={() => setShowEdit(false)}
             onCreated={cargarContactos}
+            onUpdated={cargarContactos}
             contacto={contactoSeleccionado}
           />
         )

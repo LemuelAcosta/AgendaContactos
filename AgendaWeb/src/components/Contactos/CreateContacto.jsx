@@ -1,24 +1,31 @@
 import React from 'react'
-import { createContacto } from "../../services/api";
+import { createContacto, updateContacto } from "../../services/api";
 import "../../Modal.css"
 
-export default function CreateContacto({ onClose, onCreated }) {
+export default function CreateContacto({ onClose, onCreated, onUpdated, contacto=null }) {
 
   const [formData, setFormData] = React.useState({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono1: "",
-    telefono2: "",
-    direccion: "",
-    fechaNacimiento: "",
+    nombre: contacto?.nombre || "",
+    apellido: contacto?.apellido || "",
+    email: contacto?.email || "",
+    telefono1: contacto?.telefono1 || "",
+    telefono2: contacto?.telefono2 || "",
+    direccion: contacto?.direccion || "",
+    fechaNacimiento: contacto?.fechaNacimiento?.split("T")[0] || "",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await createContacto(formData);
-      await onCreated();
+      if (contacto) {
+        console.log("actualizando contacto");
+        console.log(formData);
+        await updateContacto(contacto.id, formData);
+        await onUpdated();
+      } else {
+        await createContacto(formData);
+        await onCreated();
+      }
       onClose();
     } catch (error) {
       console.error(error);
@@ -81,6 +88,9 @@ export default function CreateContacto({ onClose, onCreated }) {
             <button className='button-modal-danger' onClick={onClose}>
               Cerrar
             </button>
+            {contacto != null && (
+              <button className='button-modal-danger'>Eliminar</button>
+            )}   
           </div>
         </form>
       </div>

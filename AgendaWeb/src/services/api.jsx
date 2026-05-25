@@ -82,3 +82,18 @@ export function createContacto(contacto) {
     }
   );
 }
+
+export function updateContacto(id, contacto) {
+  console.log(contacto);
+  const response = fetch( 
+    `${API_URL}/Contacto/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contacto),
+    }
+  );
+  return response;
+}
