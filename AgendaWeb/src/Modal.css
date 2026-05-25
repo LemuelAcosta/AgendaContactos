@@ -62,8 +62,20 @@ input {
     border-radius: 5px;
 }
 
+select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+label {
+    font-weight: bold;
+    font-size: 0.8rem;
 }

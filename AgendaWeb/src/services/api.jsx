@@ -11,11 +11,32 @@ async function fetchData(endpoint, errorMessage) {
 
   return await response.json();
 }
-
+//Eventos
 export function getEventos() {
   return fetchData(
     "Evento",
     "Error cargando eventos"
+  );
+}
+
+export function getEvento(id) {
+  return fetchData(
+    `Evento/${id}`,
+    "Error cargando evento"
+  );
+}
+
+export function createEvento(evento) {
+  console.log(evento);
+  return fetch(
+    `${API_URL}/Evento`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(evento),
+    }
   );
 }
 

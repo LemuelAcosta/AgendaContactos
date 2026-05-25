@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { getEventos } from "../../services/api";
 import { Link } from "react-router-dom";
+import CreateEvento from "../../components/Eventos/CreateEvento";
 
 function EventosPage() {
 
-  const [eventos, setEventos] =
-    useState([]);
+  const [eventos, setEventos] = useState([]);
+  const [showCreate, setShowCreate] = useState(false);
+
 
   async function cargarEventos() {
     const data = await getEventos();
@@ -20,7 +22,12 @@ function EventosPage() {
 
     <div>
       <h1>Eventos</h1>
-      <Link to="/" className='link-button'>Ir a Inicio</Link>
+      <div className="buttons">
+        <Link to="/" className='link-button'>Ir a Inicio</Link>
+        <button className="button" onClick={() => setShowCreate(true)}>
+          Crear Evento
+        </button>
+      </div>
 
       {
         eventos.map(evento => (
@@ -32,6 +39,14 @@ function EventosPage() {
             </small>
           </div>
         ))
+      }
+      {
+        showCreate && (
+          <CreateEvento
+            onClose={() => setShowCreate(false)}
+            onCreated={cargarEventos}
+          />
+        )
       }
     </div>
   );

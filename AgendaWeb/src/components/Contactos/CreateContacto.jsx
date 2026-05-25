@@ -15,9 +15,7 @@ export default function CreateContacto({ onClose, onCreated }) {
   });
 
   async function handleSubmit(e) {
-
     e.preventDefault();
-
     try {
       await createContacto(formData);
       await onCreated();
@@ -68,6 +66,7 @@ export default function CreateContacto({ onClose, onCreated }) {
             value={formData.direccion}
             onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
           />
+          <label>Fecha de Nacimiento</label>
           <input
             type="date"
             placeholder="Fecha de Nacimiento"
