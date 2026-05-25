@@ -40,6 +40,20 @@ export function createEvento(evento) {
   );
 }
 
+export function updateEvento(id, evento) {
+  console.log(evento);
+  return fetch(
+    `${API_URL}/Evento/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(evento),
+    }
+  );
+}
+
 // contactos
 export function getContactos() {
   return fetchData(

@@ -1,35 +1,38 @@
 import React from 'react'
-import { createEvento, getContactos } from "../../services/api";
+import { createEvento, getContactos, updateEvento } from "../../services/api";
 import MultipleContactos from "../Contactos/MultipleContactos";
 import { useEffect, useState } from 'react';
 import  "../../Modal.css"
 
-export default function CreateEvento({ onClose, onCreated }) {
+export default function CreateEvento({ onClose, onCreated, onUpdated, evento=null }) {
 
   const [formData, setFormData] = React.useState({
-    titulo: "",
-    descripcion: "",
-    fechaInicio: "",
-    fechaFin: "",
-    estado: 0,
-    esImportante: false,
+    titulo: evento?.titulo || "",
+    descripcion: evento?.descripcion || "",
+    fechaInicio: evento?.fechaInicio?.split("T")[0] || "",
+    fechaFin: evento?.fechaFin?.split("T")[0] || "",
+    estado: evento?.estado || 0,
+    esImportante: evento?.esImportante || false,
   });
+  console.log(evento);
 
   const [seleccionados, setSeleccionados] = useState([]);
-  const [modeloContactos, setModeloContactos] = React.useState([]);
+  const [contactos, setContactos] = React.useState([]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       const data = {
         ...formData,
-        contactos: seleccionados.map((id) => ({
-          id: id
-        }))
+        contactosIds: seleccionados
       };
-      console.log(data);
-      await createEvento(data);
-      await onCreated();
+      if (evento) {
+        await updateEvento(evento.id, data);
+        await onUpdated();
+      } else {
+        await createEvento(data);
+        await onCreated();
+      }
       onClose();
     } catch (error) {
       console.error(error);
@@ -37,8 +40,23 @@ export default function CreateEvento({ onClose, onCreated }) {
   }
 
   useEffect(() => {
-    getContactos().then(setModeloContactos);
+    getContactos().then(setContactos);
   }, []);
+
+  useEffect(() => {
+  if (evento) {
+    setFormData({
+      titulo: evento.titulo || "",
+      descripcion: evento.descripcion || "",
+      fechaInicio: evento.fechaInicio?.split("T")[0] || "",
+      fechaFin: evento.fechaFin?.split("T")[0] || "",
+      estado: evento.estado || 0,
+      esImportante: evento.esImportante || false,
+    });
+
+    setSeleccionados(evento.contactosIds || []);
+  }
+}, [evento]);
 
   return (
     <div className="modal-overlay">
@@ -75,7 +93,7 @@ export default function CreateEvento({ onClose, onCreated }) {
           <select
             placeholder="Estado"
             value={formData.estado}
-            onChange={(e) => setFormData({ ...formData, estado: e.target.value.toString() })}
+            onChange={(e) => setFormData({ ...formData, estado: Number(e.target.value) })}
           >
             <option value="0">Pendiente</option>
             <option value="1">En Progreso</option>
@@ -84,7 +102,7 @@ export default function CreateEvento({ onClose, onCreated }) {
           </select>
 
           <MultipleContactos
-            contactos={modeloContactos}
+            contactos={contactos}
             seleccionados={seleccionados}
             setSeleccionados={setSeleccionados}
           />
@@ -104,6 +122,9 @@ export default function CreateEvento({ onClose, onCreated }) {
             <button className='button-modal-danger' onClick={onClose}>
               Cerrar
             </button>
+            {evento != null && (
+              <button className='button-modal-danger'>Eliminar</button>
+            )}          
           </div>
         </form>
       </div>
