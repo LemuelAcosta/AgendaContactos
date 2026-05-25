@@ -5,6 +5,8 @@ import CreateContacto from "../../components/Contactos/CreateContacto";
 
 function ContactosPage() {
 
+  const [busqueda, setBusqueda] = useState("");
+
   const [showCreate, setShowCreate] = useState(false);
   const [Contactos, setContactos] = useState([]);
 
@@ -20,6 +22,19 @@ function ContactosPage() {
     cargarContactos();
   }, []);
 
+
+  const contactosFiltrados = Contactos.filter((contacto) => {
+    const texto = busqueda.toLowerCase();
+    return (
+      contacto.nombre.toLowerCase().includes(texto) ||
+      contacto.apellido.toLowerCase().includes(texto) ||
+      contacto.email.toLowerCase().includes(texto) ||
+      contacto.telefono1.includes(texto) ||
+      contacto.telefono2.includes(texto)
+    );
+  });
+
+
   return (
     <div className="contactos-page">
       <h1>Contactos</h1>
@@ -28,10 +43,11 @@ function ContactosPage() {
         <button className="button" onClick={() => setShowCreate(true)}>
           Crear Contacto
         </button>
+        <input type="text" placeholder="Buscar..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
       </div>
       <div className="contactos-list">
         {
-          Contactos.map(contacto => (
+          contactosFiltrados.map(contacto => (
           <div className="evento" onClick={async () => {
             const data = await getContacto(contacto.id);
 

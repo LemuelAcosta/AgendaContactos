@@ -3,9 +3,7 @@ import { createContacto, updateContacto, deleteContacto } from "../../services/a
 import "../../Modal.css"
 
 export default function CreateContacto({ onClose, onCreated, onUpdated, contacto=null }) {
-
   const [formData, setFormData] = React.useState({
-
     nombre: contacto?.nombre || "",
     apellido: contacto?.apellido || "",
     email: contacto?.email || "",
