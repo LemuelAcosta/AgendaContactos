@@ -5,7 +5,7 @@ export default function MultipleContactos({
   seleccionados,
   setSeleccionados,
 }) {
-    
+
   function toggle(id) {
     setSeleccionados((prev) =>
       prev.includes(id)
@@ -29,7 +29,6 @@ export default function MultipleContactos({
         value=""
       >
         <option value="">Agregar contacto</option>
-
         {contactos.map((c) => (
           <option key={c.id} value={c.id}>
             {c.nombre} {c.apellido}

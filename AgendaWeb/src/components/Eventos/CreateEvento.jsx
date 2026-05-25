@@ -16,12 +16,19 @@ export default function CreateEvento({ onClose, onCreated }) {
   });
 
   const [seleccionados, setSeleccionados] = useState([]);
-  const [contactos, setContactos] = React.useState([]);
+  const [modeloContactos, setModeloContactos] = React.useState([]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await createEvento(formData);
+      const data = {
+        ...formData,
+        contactos: seleccionados.map((id) => ({
+          id: id
+        }))
+      };
+      console.log(data);
+      await createEvento(data);
       await onCreated();
       onClose();
     } catch (error) {
@@ -30,7 +37,7 @@ export default function CreateEvento({ onClose, onCreated }) {
   }
 
   useEffect(() => {
-    getContactos().then(setContactos);
+    getContactos().then(setModeloContactos);
   }, []);
 
   return (
@@ -77,11 +84,11 @@ export default function CreateEvento({ onClose, onCreated }) {
           </select>
 
           <MultipleContactos
-            contactos={contactos}
+            contactos={modeloContactos}
             seleccionados={seleccionados}
             setSeleccionados={setSeleccionados}
           />
-          
+
           <label>
             <input
               type="checkbox"
