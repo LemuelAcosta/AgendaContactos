@@ -1,10 +1,11 @@
 import React from 'react'
-import { createContacto, updateContacto } from "../../services/api";
+import { createContacto, updateContacto, deleteContacto } from "../../services/api";
 import "../../Modal.css"
 
 export default function CreateContacto({ onClose, onCreated, onUpdated, contacto=null }) {
 
   const [formData, setFormData] = React.useState({
+
     nombre: contacto?.nombre || "",
     apellido: contacto?.apellido || "",
     email: contacto?.email || "",
@@ -29,6 +30,14 @@ export default function CreateContacto({ onClose, onCreated, onUpdated, contacto
       onClose();
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function eliminarContacto() {
+    if (contacto) {
+      await deleteContacto(contacto.id);
+      await onDeleted();
+      onClose();
     }
   }
 
@@ -89,7 +98,9 @@ export default function CreateContacto({ onClose, onCreated, onUpdated, contacto
               Cerrar
             </button>
             {contacto != null && (
-              <button className='button-modal-danger'>Eliminar</button>
+              <button className='button-modal-danger' onClick={eliminarContacto}>
+                Eliminar
+              </button>
             )}   
           </div>
         </form>
