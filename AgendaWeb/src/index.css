@@ -76,6 +76,7 @@ h1 {
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .contactos-page {
@@ -99,8 +100,17 @@ h1 {
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .eventos-page {
   padding: 20px;
+}
+
+.pagination{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
 }

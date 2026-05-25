@@ -12,9 +12,9 @@ async function fetchData(endpoint, errorMessage) {
   return await response.json();
 }
 //Eventos
-export function getEventos() {
+export function getEventos(page, pageSize) {
   return fetchData(
-    "Evento",
+    `Evento?page=${page}&pageSize=${pageSize}`,
     "Error cargando eventos"
   );
 }
@@ -70,9 +70,9 @@ export function deleteEvento(id) {
 
 
 // contactos
-export function getContactos() {
+export function getContactos(page, pageSize) {
   return fetchData(
-    "Contacto",
+    `Contacto?page=${page}&pageSize=${pageSize}`,
     "Error cargando contactos"
   );
 }

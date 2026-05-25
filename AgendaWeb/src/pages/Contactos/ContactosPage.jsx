@@ -13,14 +13,16 @@ function ContactosPage() {
   const [contactoSeleccionado, setContactoSeleccionado] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
   async function cargarContactos() {
-    const data = await getContactos();
+    const data = await getContactos(page, pageSize);
     setContactos(data);
   }
 
   useEffect(() => {
     cargarContactos();
-  }, []);
+  }, [page, pageSize]);
 
 
   const contactosFiltrados = Contactos.filter((contacto) => {
@@ -44,7 +46,18 @@ function ContactosPage() {
         <button className="button" onClick={() => setShowCreate(true)}>
           Crear Contacto
         </button>
-        <input type="text" placeholder="Buscar..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
+        <div>
+          <label htmlFor="pageSize">Tamaño de página:</label>
+          <input
+            type="number"
+            id="pageSize"
+            value={pageSize}
+            onChange={(e) => setPageSize(parseInt(e.target.value))}
+            min="1"
+            max="10"
+          />
+        </div>
+        <input type="text" placeholder="Buscar por filtros..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
       </div>
       <div className="contactos-list">
         {
@@ -65,6 +78,21 @@ function ContactosPage() {
 
           ))
         }
+      </div>
+      <div className="pagination">
+        <button
+          className="button"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Anterior
+        </button>
+
+        <span>Página {page}</span>
+
+        <button className="button" onClick={() => setPage(page + 1)}>
+          Siguiente
+        </button>
       </div>
       {
         showCreate && (
