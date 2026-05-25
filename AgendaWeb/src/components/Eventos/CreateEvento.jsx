@@ -1,5 +1,5 @@
 import React from 'react'
-import { createEvento, getContactos, updateEvento } from "../../services/api";
+import { createEvento, getContactos, updateEvento, deleteEvento } from "../../services/api";
 import MultipleContactos from "../Contactos/MultipleContactos";
 import { useEffect, useState } from 'react';
 import  "../../Modal.css"
@@ -36,6 +36,14 @@ export default function CreateEvento({ onClose, onCreated, onUpdated, evento=nul
       onClose();
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function eliminarEvento() {
+    if (evento) {
+      await deleteEvento(evento.id);
+      await onDeleted();
+      onClose();
     }
   }
 
@@ -123,7 +131,9 @@ export default function CreateEvento({ onClose, onCreated, onUpdated, evento=nul
               Cerrar
             </button>
             {evento != null && (
-              <button className='button-modal-danger'>Eliminar</button>
+              <button className='button-modal-danger' onClick={eliminarEvento}>
+                Eliminar
+              </button>
             )}          
           </div>
         </form>

@@ -54,6 +54,21 @@ export function updateEvento(id, evento) {
   );
 }
 
+export function deleteEvento(id) {
+  const confirmed = window.confirm("Seguro que desea eliminar este evento?");
+  if (!confirmed) {
+    return Promise.resolve();
+  }
+  const response = fetch(
+    `${API_URL}/Evento/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+  return response;
+}
+
+
 // contactos
 export function getContactos() {
   return fetchData(
@@ -93,6 +108,20 @@ export function updateContacto(id, contacto) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(contacto),
+    }
+  );
+  return response;
+}
+
+export function deleteContacto(id) {
+  const confirmed = window.confirm("Seguro que desea eliminar este contacto?");
+  if (!confirmed) {
+    return Promise.resolve();
+  }
+  const response = fetch(
+    `${API_URL}/Contacto/${id}`,
+    {
+      method: "DELETE",
     }
   );
   return response;
