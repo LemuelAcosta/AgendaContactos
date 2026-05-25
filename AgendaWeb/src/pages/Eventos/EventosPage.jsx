@@ -86,6 +86,12 @@ function EventosPage() {
           <label>Hasta</label>
           <input type="date" value={fechaBusquedaFin} onChange={(e) => setFechaBusquedaFin(e.target.value)}/> 
         </div>
+        <div className="filter-group">
+          <label htmlFor="contacto">Contactos</label>
+          <select id="contacto">
+            <option value="">Todos</option>
+          </select>
+        </div>
       </div>
       <div className="eventos-list">
         {

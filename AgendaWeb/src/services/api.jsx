@@ -71,10 +71,7 @@ export function deleteEvento(id) {
 
 // contactos
 export function getContactos(page, pageSize, sinPaginacion=false) {
-  let endpoint = `Contacto?page=${page}&pageSize=${pageSize}`;
-  if (sinPaginacion) {
-    endpoint = `Contacto`;
-  }
+  let endpoint = `Contacto?page=${page}&pageSize=${pageSize}&sinPaginacion=${sinPaginacion}`;
   return fetchData(
     endpoint,
     "Error cargando contactos"

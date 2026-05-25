@@ -15,6 +15,7 @@ function ContactosPage() {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(3);
+
   async function cargarContactos() {
     const data = await getContactos(page, pageSize);
     setContactos(data);
@@ -52,7 +53,9 @@ function ContactosPage() {
             type="number"
             id="pageSize"
             value={pageSize}
-            onChange={(e) => setPageSize(parseInt(e.target.value))}
+            onChange={(e) =>
+              setPageSize(Number(e.target.value) || 1)
+            }
             min="1"
             max="10"
           />
@@ -65,7 +68,7 @@ function ContactosPage() {
       <div className="contactos-list">
         {
           contactosFiltrados.map(contacto => (
-          <div className="evento" onClick={async () => {
+          <div className="contacto" onClick={async () => {
             const data = await getContacto(contacto.id);
 
             setContactoSeleccionado(data);

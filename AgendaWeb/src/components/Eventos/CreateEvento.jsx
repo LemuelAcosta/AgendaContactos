@@ -48,7 +48,7 @@ export default function CreateEvento({ onClose, onCreated, onUpdated, evento=nul
   }
 
   useEffect(() => {
-    getContactos().then(setContactos);
+    getContactos(0, 0, true).then(setContactos);
   }, []);
 
   useEffect(() => {
