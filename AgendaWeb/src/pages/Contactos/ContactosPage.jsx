@@ -46,7 +46,7 @@ function ContactosPage() {
         <button className="button" onClick={() => setShowCreate(true)}>
           Crear Contacto
         </button>
-        <div>
+        <div className="filter-group"> 
           <label htmlFor="pageSize">Tamaño de página:</label>
           <input
             type="number"
@@ -57,7 +57,10 @@ function ContactosPage() {
             max="10"
           />
         </div>
-        <input type="text" placeholder="Buscar por filtros..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
+        <div className="filter-group">
+          <label htmlFor="busqueda">Buscar:</label>
+          <input type="text" placeholder="Buscar por filtros..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
+        </div>
       </div>
       <div className="contactos-list">
         {

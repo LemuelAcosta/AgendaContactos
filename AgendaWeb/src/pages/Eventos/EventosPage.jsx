@@ -5,6 +5,10 @@ import CreateEvento from "../../components/Eventos/CreateEvento";
 
 function EventosPage() {
 
+  const [busqueda, setBusqueda] = useState("");
+  const [fechaBusquedaInicio, setFechaBusquedaInicio] = useState("");
+  const [fechaBusquedaFin, setFechaBusquedaFin] = useState("");
+
   const [eventos, setEventos] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
 
@@ -23,6 +27,33 @@ function EventosPage() {
     cargarEventos();
   }, [page, pageSize]);
 
+  const eventosFiltrados = eventos.filter((evento) => {
+    
+    const texto = busqueda.toLowerCase();
+
+    const coincideTexto =
+    evento.titulo.toLowerCase().includes(texto) ||
+    evento.descripcion.toLowerCase().includes(texto);
+
+    const fechaInicioEvento = evento.fechaInicio?.split("T")[0];
+    const fechaFinEvento = evento.fechaFin?.split("T")[0];
+
+    const coincideFechaInicio =
+      !fechaBusquedaInicio ||
+      fechaInicioEvento >= fechaBusquedaInicio;
+
+    const coincideFechaFin =
+      !fechaBusquedaFin ||
+      fechaFinEvento <= fechaBusquedaFin;
+
+    return (
+      coincideTexto &&
+      coincideFechaInicio &&
+      coincideFechaFin
+    )
+  }
+);
+
   return (
 
     <div className="eventos-page">
@@ -32,25 +63,38 @@ function EventosPage() {
         <button className="button" onClick={() => setShowCreate(true)}>
           Crear Evento
         </button>
-        <label htmlFor="pageSize">Tamaño de página:</label>
-        <input
-          type="number"
-          id="pageSize"
-          value={pageSize}
-          onChange={(e) => setPageSize(parseInt(e.target.value))}
-          min="1"
-          max="10"
-        />
+        <div className="filter-group">
+          <label htmlFor="pageSize">Tamaño de página:</label>
+          <input
+            type="number"
+            id="pageSize"
+            value={pageSize}
+            onChange={(e) => setPageSize(parseInt(e.target.value))}
+            min="1"
+            max="10"
+          />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="busqueda">Buscar:</label>
+          <input type="text" placeholder="Buscar por titulo/desc..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
+        </div>
+        <div className="filter-group">       
+          <label>Desde</label>
+          <input type="date" value={fechaBusquedaInicio} onChange={(e) => setFechaBusquedaInicio(e.target.value)}/>
+        </div>
+        <div className="filter-group">
+          <label>Hasta</label>
+          <input type="date" value={fechaBusquedaFin} onChange={(e) => setFechaBusquedaFin(e.target.value)}/> 
+        </div>
       </div>
       <div className="eventos-list">
         {
-          eventos.map(evento => (
+          eventosFiltrados.map(evento => (
             <div className="evento" onClick={async () => {
               const data = await getEvento(evento.id);
 
               setEventoSeleccionado(data);
               setShowEdit(true);
-              console.log(eventoSeleccionado);
             }} key={evento.id}>
               <h3>{evento.titulo}</h3>
               <p>{evento.descripcion}</p>

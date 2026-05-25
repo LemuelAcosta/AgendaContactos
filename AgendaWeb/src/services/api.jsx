@@ -70,9 +70,13 @@ export function deleteEvento(id) {
 
 
 // contactos
-export function getContactos(page, pageSize) {
+export function getContactos(page, pageSize, sinPaginacion=false) {
+  let endpoint = `Contacto?page=${page}&pageSize=${pageSize}`;
+  if (sinPaginacion) {
+    endpoint = `Contacto`;
+  }
   return fetchData(
-    `Contacto?page=${page}&pageSize=${pageSize}`,
+    endpoint,
     "Error cargando contactos"
   );
 }
