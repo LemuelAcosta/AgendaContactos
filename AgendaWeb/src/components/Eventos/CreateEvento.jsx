@@ -17,7 +17,7 @@ export default function CreateEvento({ onClose, onCreated, onUpdated, evento=nul
   console.log(evento);
 
   const [seleccionados, setSeleccionados] = useState([]);
-  const [contactos, setContactos] = React.useState([]);
+  const [contactos, setContactos] = useState([]);
 
   async function handleSubmit(e) {
     e.preventDefault();

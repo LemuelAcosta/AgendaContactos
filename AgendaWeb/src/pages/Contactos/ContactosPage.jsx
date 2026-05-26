@@ -14,7 +14,7 @@ function ContactosPage() {
   const [showEdit, setShowEdit] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(5);
 
   async function cargarContactos() {
     const data = await getContactos(page, pageSize);

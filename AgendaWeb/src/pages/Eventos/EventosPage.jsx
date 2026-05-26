@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getEventos, getEvento } from "../../services/api";
+import { getEventos, getEvento, getContactos  } from "../../services/api";
 import { Link } from "react-router-dom";
 import CreateEvento from "../../components/Eventos/CreateEvento";
 
@@ -8,6 +8,8 @@ function EventosPage() {
   const [busqueda, setBusqueda] = useState("");
   const [fechaBusquedaInicio, setFechaBusquedaInicio] = useState("");
   const [fechaBusquedaFin, setFechaBusquedaFin] = useState("");
+  const [contactoBusqueda, setContactoBusqueda] = useState("");
+  const [contactosSelect, setContactosSelect] = useState([]);
 
   const [eventos, setEventos] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
@@ -16,13 +18,21 @@ function EventosPage() {
   const [showEdit, setShowEdit] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(5);
 
   async function cargarEventos() {
     const data = await getEventos(page, pageSize);
     setEventos(data);
   }
+  async function cargarContactos() {
+    const data = await getContactos(0, 0, true);
+    setContactosSelect(data);
+  }
 
+  useEffect(() => {
+    cargarContactos();
+  }, []);
+  
   useEffect(() => {
     cargarEventos();
   }, [page, pageSize]);
@@ -46,10 +56,17 @@ function EventosPage() {
       !fechaBusquedaFin ||
       fechaFinEvento <= fechaBusquedaFin;
 
+    const coincideContacto =
+      !contactoBusqueda ||
+      evento.contactos?.some(
+        (c) => c.id === contactoBusqueda
+      );
+
     return (
       coincideTexto &&
       coincideFechaInicio &&
-      coincideFechaFin
+      coincideFechaFin &&
+      coincideContacto
     )
   }
 );
@@ -88,8 +105,13 @@ function EventosPage() {
         </div>
         <div className="filter-group">
           <label htmlFor="contacto">Contactos</label>
-          <select id="contacto">
+          <select id="contacto" value={contactoBusqueda} onChange={(e) => setContactoBusqueda(e.target.value)}>
             <option value="">Todos</option>
+            {contactosSelect.map((contacto) => (
+              <option key={contacto.id} value={contacto.id}>
+                {contacto.nombre} {contacto.apellido}
+              </option>
+            ))}
           </select>
         </div>
       </div>
